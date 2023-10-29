@@ -1,0 +1,54 @@
+import re
+import sys
+import os
+import codecs
+
+def create_header_sp(sp_sizes):
+    header = bytearray()
+    for size in sp_sizes:
+        header += size.to_bytes(4, byteorder='little')
+    while len(header) < 64:
+        header += bytes([255])
+    return header
+
+def main():
+    if len(sys.argv) != 3:
+        print("Usage: python " + sys.argv[0] + " input.jam input.sp")
+        return
+
+    jam_filename = sys.argv[1]
+    sp_filename = sys.argv[2]
+
+    if not jam_filename.endswith(".jam") or not sp_filename.endswith(".sp"):
+        print("Both files must have .jam and .sp extensions")
+        return
+
+    if not os.path.isfile(jam_filename):
+        print(f"{jam_filename} not found.")
+        return
+
+    with codecs.open(jam_filename, "r", encoding="shift-jis") as jam_file:
+        jam_contents = jam_file.read()
+
+        sp_size_match = re.search(r'SPsize\s*=\s*([\d,]+)', jam_contents)
+        if sp_size_match:
+            sp_size_str = sp_size_match.group(1)
+            sp_sizes = [int(size) for size in sp_size_str.split(',')]
+            header = create_header_sp(sp_sizes)
+            print(f"SPsize: {sp_sizes}")
+        else:
+            print("Not a valid .jam file. SPsize not found.")
+            return
+
+    with open(sp_filename, "rb") as sp_file:
+        sp_contents = sp_file.read()
+
+    output_filename = f"{os.path.splitext(sp_filename)[0]}_header.sp"
+
+    with open(output_filename, "wb") as output_file:
+        output_file.write(header + sp_contents)
+
+    print(f"Header created and saved to {output_filename}")
+
+if __name__ == "__main__":
+    main()
