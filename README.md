@@ -1,6 +1,6 @@
 # spHeader
 
-spHeader initializes the scratchpad properly so it can load the dumped games without any trouble.
+spHeader initializes the scratchpad properly so the DoJa emulator loads the dumped games without any trouble.
 
 ## Header:
 - Size: 64 bytes
