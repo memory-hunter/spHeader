@@ -43,12 +43,10 @@ def main():
     with open(sp_filename, "rb") as sp_file:
         sp_contents = sp_file.read()
 
-    output_filename = f"{os.path.splitext(sp_filename)[0]}_header.sp"
-
-    with open(output_filename, "wb") as output_file:
+    with open(sp_filename, "wb") as output_file:
         output_file.write(header + sp_contents)
 
-    print(f"Header created and saved to {output_filename}")
+    print(f"Header created and saved to {sp_filename}")
 
 if __name__ == "__main__":
     main()
