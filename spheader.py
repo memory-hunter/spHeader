@@ -19,10 +19,6 @@ def main():
     jam_filename = sys.argv[1]
     sp_filename = sys.argv[2]
 
-    if not jam_filename.endswith(".jam") or not sp_filename.endswith(".sp"):
-        print("Both files must have .jam and .sp extensions")
-        return
-
     if not os.path.isfile(jam_filename):
         print(f"{jam_filename} not found.")
         return
