@@ -23,7 +23,7 @@ def main():
         print(f"{jam_filename} not found.")
         return
 
-    with codecs.open(jam_filename, "r", encoding="shift-jis") as jam_file:
+    with codecs.open(jam_filename, "r", encoding="shift-jis" or "utf-8") as jam_file:
         jam_contents = jam_file.read()
 
         sp_size_match = re.search(r'SPsize\s*=\s*([\d,]+)', jam_contents)
